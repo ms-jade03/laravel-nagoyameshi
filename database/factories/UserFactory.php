@@ -45,14 +45,4 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
-
-     /**
-     * Define a state for admin users.
-     */
-    public function admin(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'is_admin' => true,
-        ]);
-    }
 }

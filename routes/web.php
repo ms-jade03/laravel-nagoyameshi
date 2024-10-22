@@ -26,10 +26,5 @@ require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
     Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
-});
-
-Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::middleware('can:admin')->group(function () {
-        Route::resource('users', UserController::class)->only(['index', 'show']);
-    });
+    Route::resource('users', UserController::class)->only(['index', 'show']);
 });

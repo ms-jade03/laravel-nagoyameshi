@@ -15,14 +15,4 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         //
     ];
-
-    /**
-     * Register any authentication / authorization services.
-     */
-    public function boot(): void
-    {
-        $this->registerPolicies();
-
-        Gate::define('admin', 'App\Policies\UserPolicy@admin');
-    }
 }
