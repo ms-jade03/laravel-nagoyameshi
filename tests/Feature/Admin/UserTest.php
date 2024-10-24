@@ -46,7 +46,9 @@ class UserTest extends TestCase
     /** 未ログインのユーザーは管理者側の会員詳細ページにアクセスできない */
     public function test_guest_cannot_access_admin_user_show()
     {
-        $response = $this->get('/admin/users/1');
+        $user = User::factory()->create();
+
+        $response = $this->get(route('admin.users.show', $user));
         $response->assertRedirect('/admin/login');
     }
 
@@ -55,7 +57,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/admin/users/1');
+        $response = $this->actingAs($user)->get(route('admin.users.show', $user));
         $response->assertRedirect('/admin/login');
     }
 
@@ -67,7 +69,9 @@ class UserTest extends TestCase
         $admin->password = Hash::make('nagoyameshi');
         $admin->save();
 
-        $response = $this->actingAs($admin, 'admin')->get('/admin/users/1');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($admin, 'admin')->get(route('admin.users.show', $user));
         $response->assertStatus(200);
     }
 }
