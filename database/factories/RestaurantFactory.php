@@ -17,6 +17,17 @@ class RestaurantFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->name(),
+            'description' => fake()->kanaName(),
+            'lowest_price' => fake()->unique()->safeEmail(),
+            'highest_price' => now(),
+            'postal_code' => static::$password ??= Hash::make('password'),
+            'address' => Str::random(10),
+            'opening_time'=> fake()->postcode(),
+            'closing_time' => fake()->address(),
+            'seating_capacity' => fake()->phoneNumber(),
+
+
             'name' => 'テスト',
             'description' => 'テスト',
             'lowest_price' => 1000,
