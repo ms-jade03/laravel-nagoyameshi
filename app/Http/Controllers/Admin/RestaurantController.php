@@ -37,7 +37,7 @@ class RestaurantController extends Controller
         return view('admin.restaurants.create', compact('restaurant'));
     }
 
-    public function store(Request $request, Restaurant $restaurant)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -72,7 +72,7 @@ class RestaurantController extends Controller
 
         $restaurant->save();
         
-        return to_route('admin.restaurants.show', $restaurant)->with('flash_message', '店舗を登録しました。');
+        return to_route('admin.restaurants.index')->with('flash_message', '店舗を登録しました。');
     }
 
     public function edit(Restaurant $restaurant)

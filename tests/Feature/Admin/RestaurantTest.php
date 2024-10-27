@@ -41,7 +41,7 @@ class RestaurantTest extends TestCase
         $admin->save();
  
         $response = $this->actingAs($admin, 'admin')->get(route('admin.restaurants.index'));
-        $response->assertStatus(200); 
+        $response->assertStatus(200);
     }
 
 
@@ -119,7 +119,17 @@ class RestaurantTest extends TestCase
     /** 未ログインのユーザーは店舗を登録できない */
     public function test_guest_cannot_access_admin_restaurants_store()
     {
-        $restaurant = Restaurant::factory()->make()->toArray();
+        $restaurant = [
+            'name' => 'テスト',
+            'description' => 'テスト',
+            'lowest_price' => 1000,
+            'highest_price' => 5000,
+            'postal_code' => '0000000',
+            'address' => 'テスト',
+            'opening_time' => '10:00:00',
+            'closing_time' => '20:00:00',
+            'seating_capacity' => 50
+        ];
 
         $response = $this->post(route('admin.restaurants.store'), $restaurant);
         $this->assertDatabaseMissing('restaurants', $restaurant);
@@ -130,7 +140,17 @@ class RestaurantTest extends TestCase
     public function test_user_cannot_access_admin_restaurants_store()
     {
         $user = User::factory()->create();
-        $restaurant = Restaurant::factory()->make()->toArray();
+        $restaurant = [
+            'name' => 'テスト',
+            'description' => 'テスト',
+            'lowest_price' => 1000,
+            'highest_price' => 5000,
+            'postal_code' => '0000000',
+            'address' => 'テスト',
+            'opening_time' => '10:00:00',
+            'closing_time' => '20:00:00',
+            'seating_capacity' => 50
+        ];
         
         $response = $this->actingAs($user)->post(route('admin.restaurants.store'), $restaurant);
         $this->assertDatabaseMissing('restaurants', $restaurant);
@@ -143,13 +163,24 @@ class RestaurantTest extends TestCase
         $admin = new Admin();
         $admin->email = 'admin@example.com';
         $admin->password = Hash::make('nagoyameshi');
-        $admin->save();
 
-        $restaurant = Restaurant::factory()->make()->toArray();
+        $restaurant = [
+            'name' => 'テスト',
+            'description' => 'テスト',
+            'lowest_price' => 1000,
+            'highest_price' => 5000,
+            'postal_code' => '0000000',
+            'address' => 'テスト',
+            'opening_time' => '10:00:00',
+            'closing_time' => '20:00:00',
+            'seating_capacity' => 50
+        ];
+
+        unset($restaurant['id'], $restaurant['created_at'], $restaurant['updated_at']);
 
         $response = $this->actingAs($admin, 'admin')->post(route('admin.restaurants.store'), $restaurant);
         $this->assertDatabaseHas('restaurants',$restaurant);
-        $response->assertRedirect(route('admin.restaurants.show', $restaurant));
+        $response->assertRedirect(route('admin.restaurants.index'));
     }
 
 
