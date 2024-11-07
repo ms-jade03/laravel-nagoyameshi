@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Category extends Model
 {
-    use HasFactory, HasFactory, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable;
 
     /**
       * The attributes that are mass assignable.
